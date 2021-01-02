@@ -1,18 +1,21 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="home-page">
+    Welcome home.
+    <v-btn color="primary" @click="signOut" v-if="$store.getters.isLoggedIn">Sign Out</v-btn>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+  export default {
+    name: 'Home',
 
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld,
-  },
-};
+    methods: {
+      signOut: function() {
+        this.$store.dispatch('signOut').then(() => {
+          this.$router.push({ name: 'Sign In' });
+        });
+      }
+    }
+  };
 </script>
+
