@@ -42,7 +42,6 @@ export default new Vuex.Store({
     async signIn({ commit }, payload) {
       const response = await fetch('http://localhost:3000/business_users/sign_in', {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Jwt-Auth': 'business_web_client'
@@ -65,7 +64,6 @@ export default new Vuex.Store({
     async signUp({ commit }, payload) {
       const response = await fetch('http://localhost:3000/business_users', {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Jwt-Auth': 'business_web_client'
@@ -127,7 +125,27 @@ export default new Vuex.Store({
       } else {
         localStorage.removeItem('auth');
       }
-    }
+    },
+
+    async createBusiness({ state }, payload) {
+      const response = await fetch('http://localhost:3000/businesses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': state.auth,
+          'Jwt-Auth': 'business_web_client'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        return result;
+      } else {
+        throw result.error;
+      }
+    },
   },
   modules: {
   },

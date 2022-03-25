@@ -1,20 +1,29 @@
 <template>
   <div class="home-page">
-    Welcome home.
-    <v-btn color="primary" @click="signOut" v-if="$store.getters.isLoggedIn">Sign Out</v-btn>
+    <v-container fluid>
+      <v-row>
+        <v-col cols="12">
+          Welcome home.
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
+<style scoped>
+  .home-page {
+    height: 100%;
+  }
+</style>
+
 <script>
+  import Dashboard from '@/layouts/Dashboard.vue';
+
   export default {
     name: 'Home',
 
-    methods: {
-      signOut: function() {
-        this.$store.dispatch('signOut').then(() => {
-          this.$router.push({ name: 'Sign In' });
-        });
-      }
+    created() {
+      this.$emit('update:layout', Dashboard);
     }
   };
 </script>

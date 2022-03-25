@@ -2,6 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Auth from '../views/Auth.vue';
+import NewBusiness from '../views/NewBusiness.vue';
+import Business from '../views/Business.vue';
 import store from '../store'
 
 Vue.use(VueRouter);
@@ -13,7 +15,7 @@ const routes = [
     component: Home,
     meta: {
       requiresAuth: true,
-      requiresGuest: false
+      requiresAbsenceOfAuth: false
     }
   },
   {
@@ -22,7 +24,7 @@ const routes = [
     component: Auth,
     meta: {
       requiresAuth: false,
-      requiresGuest: true
+      requiresAbsenceOfAuth: true
     }
   },
   {
@@ -31,9 +33,27 @@ const routes = [
     component: Auth,
     meta: {
       requiresAuth: false,
-      requiresGuest: true
+      requiresAbsenceOfAuth: true
     }
   },
+  {
+    path: '/businesses/new',
+    name: 'New Business',
+    component: NewBusiness,
+    meta: {
+      requiresAuth: true,
+      requiresAbsenceOfAuth: false
+    }
+  },
+  {
+    path: '/businesses/:slug',
+    name: 'Business',
+    component: Business,
+    meta: {
+      requiresAuth: true,
+      requiresAbsenceOfAuth: false
+    }
+  }
 ];
 
 const router = new VueRouter({
@@ -50,7 +70,7 @@ router.beforeEach((to, from, next) => {
         next({ path: '/sign_in' });
       }
 
-      if (to.meta.requiresGuest && store.getters.isLoggedIn) {
+      if (to.meta.requiresAbsenceOfAuth && store.getters.isLoggedIn) {
         next({ path: '/' });
       }
 
@@ -62,7 +82,7 @@ router.beforeEach((to, from, next) => {
       next({ path: '/sign_in' });
     }
 
-    if (to.meta.requiresGuest && store.getters.isLoggedIn) {
+    if (to.meta.requiresAbsenceOfAuth && store.getters.isLoggedIn) {
       next({ path: '/' });
     }
 
